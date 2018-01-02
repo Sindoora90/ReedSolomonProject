@@ -373,6 +373,9 @@ public class ReedSolomon {
 		logger.log(1, "Start decoding the given code c(x)="+ArraytoString(code)+" with the Berlekamp-Massey algorithm");
 		int[] message = new int[k];
 		
+		Gauss.GF = this.GF;
+
+		
 		Gauss.printVectorGF(code,logger);
 		int[] syndromes = calculateSyndromes(code);
 		System.out.println("syndromes: ");
@@ -494,7 +497,7 @@ public class ReedSolomon {
 				}
 			}
 		}
-		logger.log(1,"Nullstellen - Roots of error polynomial " + ArraytoString(nullstellen));
+		logger.log(1,"Nullstellen - Roots of error polynomial: " + ArraytoString(nullstellen));
 
 		
 		System.out.println("nullstellen von c_x");
@@ -510,10 +513,13 @@ public class ReedSolomon {
 				matrix[j][i] = GF.power(x_werte[i], j+1);
 			}
 		}
+		logger.log(1, "Vandermonde Matrix to calculate the y-values: ");
 		Gauss.printMatrixGF(matrix,logger);
 		System.out.println("hier gibts wohl ein problem..." );
 		int[] y_werte = Gauss.getSolutionGF(matrix, syndromes, true);
-		Gauss.printVectorGF(y_werte,logger);
+		//Gauss.printVectorGF(y_werte,logger);
+		logger.log(1,"y-Values calculated by the gaussian algorithm: " + ArraytoString(y_werte));
+
 		
 		// Error locator polynom 
 		int[] elp = new int[code.length];
@@ -521,11 +527,19 @@ public class ReedSolomon {
 			elp[nullstellen[i]] = y_werte[i];
 		}
 		
-		Gauss.printVectorGF(elp,logger);
+		//Gauss.printVectorGF(elp,logger);
+		logger.log(1,"Error polynomial: elp_x=" + ArraytoString(elp));
+
 		int [] korrektercode = GF.add(code, elp);
-		Gauss.printVectorGF(korrektercode,logger);
+		
+		logger.log(1,"Adding elp and the received code you get the corrected code: c(x)=" + ArraytoString(korrektercode));
+
+		//Gauss.printVectorGF(korrektercode,logger);
 		
 		message = lagrangeInterpolation(korrektercode);
+		logger.log(1,"With the lagrange interpolation you get the decoded message m(x)=" + ArraytoString(message));
+		logger.log(1, "\n ---------------------- \n");
+
 		return message;
 	}	
 	
@@ -550,9 +564,14 @@ public class ReedSolomon {
 			int [] testresult = Gauss.getSolutionGF(testmatrix, testvector, true);
 			Gauss.printVectorGF(testresult,logger);
 			
-			
+			int [] invertedresult = new int[testresult.length];
+			for(int i = 0; i < testresult.length; i++){
+				invertedresult[i] = testresult[testresult.length-i-1];
+			}
 		// TODO Auto-generated method stub
-		return testresult;
+		//return testresult;
+		return invertedresult;
+
 	}
 
 		private int[] chienSearch(int[] c_x) {

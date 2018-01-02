@@ -1,7 +1,10 @@
 package mvccontroller;
 
+import java.awt.ItemSelectable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import rshelper.Logger;
 import mvcmodel.RSModel;
@@ -39,6 +42,7 @@ public class RSController {
        this._view.setStartCodingListener(new StartCodingListener());
        this._view.setStartDecodingListener(new StartDecodingListener());
        this._view.setResetFormListener(new ResetFormListener());
+       this._view.setComboBoxListener(new ComboBoxListener());
 
     }
 
@@ -99,10 +103,52 @@ public class RSController {
         	String message = ""; 
         	
         	for(int i =0; i < messagearray.length; i++){
-        		message = message + messagearray[messagearray.length-1-i];
+        		message = message + messagearray[messagearray.length-1-i] + ",";
         	}
+                	
         	
         	_view.setMessage(message);
         }
+    }
+    
+    class ComboBoxListener implements ItemListener{
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			// TODO Auto-generated method stub
+			ItemSelectable is = e.getItemSelectable();
+			System.out.println(" item changed: " + is.getSelectedObjects()[0]);
+
+			String selected = (String) is.getSelectedObjects()[0];
+			
+			if(selected=="benutzerdefiniert"){
+				System.out.println(" hgfcgfcbvn");
+				_view.changeGaloisFields("3","13","7","3");
+
+			}
+			else if(selected=="2D Barcodes"){
+				System.out.println(" ssssss");
+				_view.changeGaloisFields("4","19","10","4");
+
+			}
+
+			else if(selected=="MIDS"){
+				System.out.println(" jjjjjj");
+				_view.changeGaloisFields("5","37","31","15");
+
+			}
+			else if(selected=="CD"){
+				System.out.println(" 4446ztz8");
+				_view.changeGaloisFields("3","13","7","3");
+
+			}
+			else if(selected=="Voyager"){
+				System.out.println(" bbbbbbb");
+				_view.changeGaloisFields("3","13","7","3");
+
+			}
+			
+		}
+    	
     }
 }

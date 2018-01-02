@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -52,7 +53,7 @@ public class RSView extends JFrame {
 	private JPanel bottom_panel = new JPanel();
 
 	private JLabel lbl_festlegen = new JLabel("Festlegen der Variablen: ");
-	private String[] dropdownListe = { "benutzerdefiniert", "CD", "mehr..." };
+	private String[] dropdownListe = { "benutzerdefiniert", "2D Barcodes", "MIDS", "CD", "Voyager"};
 	private JComboBox<String> dropdown = new JComboBox<String>(dropdownListe);
 
 	private JLabel lbl_endlk = new JLabel("Endlicher Körper GF(p^m): ");
@@ -440,6 +441,12 @@ public class RSView extends JFrame {
 	public void setStartDecodingListener(ActionListener l) {
 		this.startdec.addActionListener(l);
 	}
+	
+	public void setComboBoxListener(ItemListener l) {
+		// TODO Auto-generated method stub
+		this.dropdown.addItemListener(l);
+		
+	}
 
 	public void setResetFormListener(ActionListener l) {
 		// this.startdec.addActionListener(l);
@@ -484,5 +491,16 @@ public class RSView extends JFrame {
 		// this.txtErg.setText("");
 
 	}
+
+	public void changeGaloisFields(String m, String irred, String n, String k) {
+		// TODO Auto-generated method stub
+		this.txt_m.setText(m);
+		this.txt_irred.setText(irred);
+		this.txt_n.setText(n);
+		this.txt_k.setText(k);
+		
+	}
+
+	
 
 }

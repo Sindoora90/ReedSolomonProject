@@ -311,7 +311,7 @@ public class GaloisField extends Field{
   public int[][] remainder2(int[] dividend, int[] divisor) {
 	  // int len = dividend.length - 1;
 	  //int[] rem = new int[len];
-	  int len2 = (int) Math.ceil(Math.log(fieldSize)/Math.log(2));
+	  int len2 = (int) dividend.length-divisor.length+1;
 	  int[] rem = Arrays.copyOf(dividend, dividend.length);
 	  int[] res = new int[len2];
 	  
