@@ -75,13 +75,14 @@ public class RSView extends JFrame {
 
 	private JPanel tab_panel = new JPanel();
 	private JTabbedPane tabpane = new JTabbedPane();
+	
 	// Inhalt von Kodierungstab
 	private JPanel panel_tab_kod = new JPanel();
 	private JPanel panel_kod = new JPanel();
 	private JLabel lbl_kod = new JLabel("Kodierung");
 	//private JPanel panel_kod_log = new JPanel();
 	
-	// TODO Public damit der log überall erzeugt werden kann....
+	// Public damit der log überall erzeugt werden kann....
 	public JTextArea kod_log_textarea = new JTextArea("Zwischenschritte: ", 15,20);
 	public JTextArea dek_log_textarea = new JTextArea("Zwischenschritte: ", 15,20);
 	
@@ -201,9 +202,7 @@ public class RSView extends JFrame {
 		c.gridx = 0;
 		c.gridy = 2;
 		pane.add(middle_panel_rs, c);
-		// panel_kod.setSize(500,500);
-		// panel_dek.setSize(500,500);
-		//
+		
 		panel_kod.setLayout(new GridBagLayout());
 		GridBagConstraints cc = new GridBagConstraints();
 		cc.fill = GridBagConstraints.HORIZONTAL;
@@ -322,11 +321,7 @@ public class RSView extends JFrame {
 		panel_dek.add(txt_m_dec, cd);
 
 		kod_log_textarea.setEditable(false);
-		dek_log_textarea.setEditable(false);
-		
-//		panel_kod_log.add(new JScrollPane(kod_log_textarea));
-//		panel_dek_log.add(new JScrollPane(dek_log_textarea));
-		
+		dek_log_textarea.setEditable(false);		
 		
 		GridLayout tabGridLayout = new GridLayout(0, 2);
 		panel_tab_kod.setLayout(tabGridLayout);
@@ -349,20 +344,6 @@ public class RSView extends JFrame {
 		bottom_panel.setSize(1000, 300);
 		System.out.println("bottompanel size: " + bottom_panel.getSize());
 
-		// c.fill = GridBagConstraints.HORIZONTAL;
-		// // c.weighty = 0.5;
-		// c.gridwidth = 1;
-		// c.gridx = 1;
-		// c.gridy = 2;
-		// pane.add(lbl_irred,c);
-		// c.fill = GridBagConstraints.HORIZONTAL;
-		// // c.weighty = 0.5;
-		// c.gridwidth = 1;
-		// c.gridx = 0;
-		// c.gridy = 2;
-		// txt_irred.setText("13");
-		// pane.add(txt_irred,c);
-
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.weighty = 1.0;
@@ -380,13 +361,6 @@ public class RSView extends JFrame {
 		// panel.add(bottom_panel);
 
 	}
-
-	/*
-	 * public static void main(String[] args){ new RSView().setVisible(true);
-	 * System.out.println("test");
-	 * 
-	 * }
-	 */
 
 	/**
 	 * Returns values for the Galois Field - p = Primzahl - n = Anzahl der
@@ -408,13 +382,11 @@ public class RSView extends JFrame {
 	public int[] getMessage() {
 
 		String messageString = this.txt_m_cod.getText();
-		// int[] message = new int[messageString.length()];
 		String[] splittedMessage = messageString.split(",");
 		int[] message = new int[splittedMessage.length];
 		for (int i = 0; i < message.length; i++) {
 			message[message.length - 1 - i] = Integer
 					.parseInt(splittedMessage[i]);
-			// message[i] = Integer.parseInt(""+messageString.charAt(i));
 
 		}
 		return message;
@@ -443,7 +415,6 @@ public class RSView extends JFrame {
 	}
 	
 	public void setComboBoxListener(ItemListener l) {
-		// TODO Auto-generated method stub
 		this.dropdown.addItemListener(l);
 		
 	}
@@ -473,8 +444,6 @@ public class RSView extends JFrame {
 		int[] code = new int[splittedCode.length];
 		for (int i = 0; i < code.length; i++) {
 			code[code.length - 1 - i] = Integer.parseInt(splittedCode[i]);
-			// code[i] = Integer.parseInt(""+codeString.charAt(i));
-
 		}
 
 		return code;
@@ -485,22 +454,19 @@ public class RSView extends JFrame {
 
 	}
 
-	// TODO alle felder auf leer setzen
-	public void resetView() {
-		// this.txtEingabe.setText("");
-		// this.txtErg.setText("");
-
-	}
+//   alle felder auf leer setzen
+//	public void resetView() {
+//		this.txtEingabe.setText("");
+//	    this.txtErg.setText("");
+//
+//	}
 
 	public void changeGaloisFields(String m, String irred, String n, String k) {
-		// TODO Auto-generated method stub
 		this.txt_m.setText(m);
 		this.txt_irred.setText(irred);
 		this.txt_n.setText(n);
 		this.txt_k.setText(k);
 		
 	}
-
-	
 
 }

@@ -4,10 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import mvcview.RSView;
-
+/**
+ * This class is only to append Strings to the logging textarea in the view with the current timestamp
+ *
+ */
 public class Logger {
 
-	// This class is only to append Strings to the logging textarea in the view with the current timestamp
 	
 	RSView view;
 	

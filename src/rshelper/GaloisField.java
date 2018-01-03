@@ -38,15 +38,12 @@ public class GaloisField extends Field{
   private final int primitiveElement; 
 
 
-
-
-
 // Field size 256 is good for byte based system
   private static final int DEFAULT_FIELD_SIZE = 256;
   // primitive polynomial 1 + X^2 + X^3 + X^4 + X^8
   private static final int DEFAULT_PRIMITIVE_POLYNOMIAL = 285;
   
-  private static final int DEFAULT_PRIMITIVE_ELEMENT = 2; // TODO ? 
+  private static final int DEFAULT_PRIMITIVE_ELEMENT = 2; // ? 
 
   static private final Map<Integer, GaloisField> instances =
     new HashMap<Integer, GaloisField>();
@@ -85,8 +82,6 @@ public class GaloisField extends Field{
     this.primitivePeriod = fieldSize - 1;
     this.primitivePolynomial = primitivePolynomial;
     
-    // TODO muss eigtl. berechnet werden indem alle elemente getestet werden... 
-//    this.primitiveElement = 2;
     
     this.primitiveElement = primitiveElement;
     logTable = new int[fieldSize];
