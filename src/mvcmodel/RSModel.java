@@ -1,5 +1,8 @@
 package mvcmodel;
 
+import java.util.Date;
+
+import rshelper.Gauss;
 import rshelper.Logger;
 import rshelper.ReedSolomon;
 
@@ -8,7 +11,7 @@ import rshelper.ReedSolomon;
  * Klassen und weiß nicht was um ihn herum geschieht.
  * Es ist völlig egal ob man dieses Model aus einem
  * Fenster oder einer Konsolen Eingabe verwendet -
- * beiden würde funktionieren.
+ * beides würde funktionieren.
  */
 public class RSModel {
     
@@ -23,7 +26,6 @@ public class RSModel {
         zurückSetzen();
     }
 
-    // TODO test obs richtig ist
     public void zurückSetzen(){
     	this._code = null;
     	this._message = null;
@@ -31,9 +33,8 @@ public class RSModel {
     
     
     public void starteCodierung(int[] fieldValues, String codingStyle, int[] m){
-    	
-    	System.out.println("test fieldvalues.length " + fieldValues.length + " codingstyle : " + codingStyle + " nachrichtlength " + m.length);
-    	logger.log(0,"\n test fieldvalues.length " + fieldValues.length + " codingstyle : " + codingStyle + " nachrichtlength " + m.length);
+    	logger.log(0, "START CODIERUNG");
+    	long start = System.currentTimeMillis();
 //    	this._RS = new ReedSolomon(fieldValues[0], fieldValues[3], fieldValues[2]); // 0 = p primzahl, 1 = n, 2 = k, 3 = p(x) irreduzpoly
     	this._RS = new ReedSolomon(fieldValues,logger);
     	if(codingStyle=="stuetz"){
@@ -42,13 +43,17 @@ public class RSModel {
     	else if(codingStyle=="system"){
     		this._code = this._RS.createSystematicCode(m);
     	}
+    	long end = System.currentTimeMillis();
+    	long diff = end - start; 
+    	logger.log(0 , " END - TIME: " + diff);
+		logger.log(0, "\n ---------------------- \n");
+
     	
     }
     
-    public void starteDecodierung(int[] fieldValues, String decodingStyle, int[] c){
-    	
-    	System.out.println("test fieldvalues.length " + fieldValues.length + " decodingstyle : " + decodingStyle + " codelength " + c.length);
-    	logger.log(1, "test fieldvalues.length " + fieldValues.length + " decodingstyle : " + decodingStyle + " codelength " + c.length);
+    public void starteDecodierung(int[] fieldValues, String decodingStyle, int[] c){  	
+    	logger.log(1, "START DECODIERUNG");
+    	long start = System.currentTimeMillis();
 //    	this._RS = new ReedSolomon(fieldValues[0], fieldValues[3], fieldValues[2]); // 0 = p primzahl, 1 = n, 2 = k, 3 = p(x) irreduzpoly
     	this._RS = new ReedSolomon(fieldValues,logger);
     	if(decodingStyle=="bwelch"){
@@ -57,6 +62,12 @@ public class RSModel {
     	else if(decodingStyle=="bmassey"){
     		this._message = this._RS.decodeCodeMethodMassey(c);
     	}
+    	long end = System.currentTimeMillis();
+    	long diff = end - start; 
+    	logger.log(1 , " END - TIME: " + diff);
+		logger.log(1, "\n ---------------------- \n");
+
+    	
     }
    
     
