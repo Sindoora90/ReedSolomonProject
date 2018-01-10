@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Random;
 
 import rshelper.Logger;
 import mvcmodel.RSModel;
@@ -43,6 +44,7 @@ public class RSController {
 		this._view.setStartDecodingListener(new StartDecodingListener());
 		this._view.setResetFormListener(new ResetFormListener());
 		this._view.setComboBoxListener(new ComboBoxListener());
+		this._view.setRandButtonListener(new RandButtonListener());
 
 	}
 
@@ -106,6 +108,27 @@ public class RSController {
 			_view.setMessage(message);
 		}
 	}
+	
+	class RandButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int[] fieldValues = _view.getFieldValues();
+			int n = (int) (Math.pow(fieldValues[0], fieldValues[1])); // p^m
+			int[] messagearray = new int[fieldValues[5]]; // k
+			String message = "" + newRand(n);
+			for (int i = 1; i < messagearray.length; i++) {
+				message = message + "," + newRand(n) ;
+			}
+			_view.setInputMessage(message);
+		}
+		
+		private int newRand(int n){
+			int i = 0; 
+			i = new Random().nextInt(n);
+			return i; 
+		}
+	}
+	
 
 	class ComboBoxListener implements ItemListener {
 

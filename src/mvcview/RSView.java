@@ -99,6 +99,7 @@ public class RSView extends JFrame {
 
 	private JButton startcod = new JButton("Start Cod");
 	private JButton startdec = new JButton("Start Dec");
+	private JButton randmessage = new JButton("Random");
 
 	//private JLabel lbl_zwischen = new JLabel("Zwischenschritte: ");
 	//private JLabel lbl_zwischen2 = new JLabel("");
@@ -212,6 +213,12 @@ public class RSView extends JFrame {
 		cc.gridx = 0;
 		cc.gridy = 0;
 		panel_kod.add(lbl_kod, cc);
+		cc.gridwidth = 2;
+		cc.weightx = 0.0;
+		cc.weighty = 1.0;
+		cc.gridx = 1;
+		cc.gridy = 0;
+		panel_kod.add(randmessage, cc);
 		cc.gridwidth = 1;
 		cc.weightx = 0.0;
 		cc.weighty = 1.0;
@@ -418,7 +425,10 @@ public class RSView extends JFrame {
 		this.dropdown.addItemListener(l);
 		
 	}
-
+	
+	public void setRandButtonListener(ActionListener l) {
+		this.randmessage.addActionListener(l);		
+	}
 	public void setResetFormListener(ActionListener l) {
 		// this.startdec.addActionListener(l);
 	}
@@ -451,6 +461,10 @@ public class RSView extends JFrame {
 
 	public void setMessage(String message) {
 		this.txt_m_dec.setText(message);
+
+	}
+	public void setInputMessage(String message) {
+		this.txt_m_cod.setText(message);
 
 	}
 
