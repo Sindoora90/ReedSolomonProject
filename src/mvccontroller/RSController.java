@@ -95,8 +95,8 @@ public class RSController {
 			int[] fieldValues = _view.getFieldValues();
 			String decodingStyle = _view.getDecodingStyle();
 			int[] c = _view.getCode();
-
-			_model.starteDecodierung(fieldValues, decodingStyle, c);
+			String codingStyle = _view.getCodingStyle();
+			_model.starteDecodierung(fieldValues, decodingStyle, c, codingStyle);
 			int[] messagearray = _model.getMessage();
 			String message = "";
 
@@ -135,7 +135,7 @@ public class RSController {
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 			ItemSelectable is = e.getItemSelectable();
-			System.out.println(" item changed: " + is.getSelectedObjects()[0]);
+//			System.out.println(" item changed: " + is.getSelectedObjects()[0]);
 
 			String selected = (String) is.getSelectedObjects()[0];
 
@@ -150,11 +150,14 @@ public class RSController {
 			else if (selected == "MIDS") {
 				_view.changeGaloisFields("5", "37", "31", "15");
 
-			} else if (selected == "CD") {
-				_view.changeGaloisFields("3", "13", "7", "3");
+			} else if (selected == "CD1") {
+				_view.changeGaloisFields("8", "285", "28", "24");
 
-			} else if (selected == "Voyager") {
-				_view.changeGaloisFields("8", "283", "255", "223");
+			}else if (selected == "CD2") {
+				_view.changeGaloisFields("8", "285", "32", "28");
+			} 
+			else if (selected == "Voyager") {
+				_view.changeGaloisFields("8", "285", "255", "223"); // p(x)=285=x^8+x^4+x^3+x^2+1
 				String test = "1";
 				for (int i = 2; i <= 223; i++) {
 					test += "," + i;

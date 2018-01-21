@@ -20,11 +20,15 @@ public class Logger {
 		if(i == 0){
 			view.kod_log_textarea.append("\n" +getCurrentTimeStamp() + "  ");
 			view.kod_log_textarea.append(a);
+			view.kod_log_textarea.setCaretPosition(view.kod_log_textarea.getDocument().getLength());
+
 		}
 		
 		else{
 			view.dek_log_textarea.append("\n" +getCurrentTimeStamp() + "  ");
 			view.dek_log_textarea.append(a);
+			view.dek_log_textarea.setCaretPosition(view.dek_log_textarea.getDocument().getLength());
+
 		}
 		
 	}

@@ -53,7 +53,7 @@ public class RSView extends JFrame {
 	private JPanel bottom_panel = new JPanel();
 
 	private JLabel lbl_festlegen = new JLabel("Festlegen der Variablen: ");
-	private String[] dropdownListe = { "benutzerdefiniert", "2D Barcodes", "MIDS", "CD", "Voyager"};
+	private String[] dropdownListe = { "benutzerdefiniert", "2D Barcodes", "MIDS", "CD1","CD2", "Voyager"};
 	private JComboBox<String> dropdown = new JComboBox<String>(dropdownListe);
 
 	private JLabel lbl_endlk = new JLabel("Endlicher Körper GF(p^m): ");
@@ -346,10 +346,10 @@ public class RSView extends JFrame {
 		// The following line enables to use scrolling tabs.
 		tabpane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		// tab_panel.add(tabpane);
-		System.out.println("tabpanel size: " + tab_panel.getSize());
+//		System.out.println("tabpanel size: " + tab_panel.getSize());
 		bottom_panel.add(tabpane, myConstraints);
 		bottom_panel.setSize(1000, 300);
-		System.out.println("bottompanel size: " + bottom_panel.getSize());
+//		System.out.println("bottompanel size: " + bottom_panel.getSize());
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
@@ -357,7 +357,7 @@ public class RSView extends JFrame {
 		c.gridx = 0;
 		c.gridy = 3;
 		pane.add(bottom_panel, c);
-		System.out.println("pane size: " + pane.getSize());
+//		System.out.println("pane size: " + pane.getSize());
 
 		// pack drückt alles zusammen in der view, ignoriert size angaben
 		// this.pack();

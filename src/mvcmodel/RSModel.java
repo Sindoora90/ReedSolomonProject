@@ -33,39 +33,41 @@ public class RSModel {
     
     
     public void starteCodierung(int[] fieldValues, String codingStyle, int[] m){
-    	logger.log(0, "START CODIERUNG");
     	long start = System.currentTimeMillis();
 //    	this._RS = new ReedSolomon(fieldValues[0], fieldValues[3], fieldValues[2]); // 0 = p primzahl, 1 = n, 2 = k, 3 = p(x) irreduzpoly
     	this._RS = new ReedSolomon(fieldValues,logger);
     	if(codingStyle=="stuetz"){
+        	logger.log(0, "STARTE STÜTZSTELLENBASIERTE CODIERUNG");
     		this._code = this._RS.createCode(m);
     	}
     	else if(codingStyle=="system"){
+        	logger.log(0, "STARTE SYSTEMATISCHE CODIERUNG");
     		this._code = this._RS.createSystematicCode(m);
     	}
     	long end = System.currentTimeMillis();
     	long diff = end - start; 
-    	logger.log(0 , " END - TIME: " + diff);
-		logger.log(0, "\n ---------------------- \n");
+    	logger.log(0 , " ENDE CODIERUNG - LAUFZEIT: " + diff);
+		logger.log(0, "---------------------- \n");
 
     	
     }
     
-    public void starteDecodierung(int[] fieldValues, String decodingStyle, int[] c){  	
-    	logger.log(1, "START DECODIERUNG");
+    public void starteDecodierung(int[] fieldValues, String decodingStyle, int[] c, String codingStyle){  	
     	long start = System.currentTimeMillis();
 //    	this._RS = new ReedSolomon(fieldValues[0], fieldValues[3], fieldValues[2]); // 0 = p primzahl, 1 = n, 2 = k, 3 = p(x) irreduzpoly
     	this._RS = new ReedSolomon(fieldValues,logger);
     	if(decodingStyle=="bwelch"){
-    		this._message = this._RS.decodeCodeMethodWelch(c);
+        	logger.log(1, "STARTE BERLEKAMP-WELCH-DECODIERUNG");
+    		this._message = this._RS.decodeCodeMethodWelch(c, codingStyle);
     	}
     	else if(decodingStyle=="bmassey"){
-    		this._message = this._RS.decodeCodeMethodMassey(c);
+        	logger.log(1, "STARTE BERLEKAMP-MASSEY-DECODIERUNG");
+    		this._message = this._RS.decodeCodeMethodMassey(c, codingStyle);
     	}
     	long end = System.currentTimeMillis();
     	long diff = end - start; 
-    	logger.log(1 , " END - TIME: " + diff);
-		logger.log(1, "\n ---------------------- \n");
+    	logger.log(1 , " ENDE DECODIERUNG - LAUFZEIT: " + diff);
+		logger.log(1, "---------------------- \n");
 
     	
     }

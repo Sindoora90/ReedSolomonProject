@@ -65,22 +65,22 @@ public class Gauss {
 //						int[][] matrix2 = matrix.clone();
 //						matrix2[line][line] = 1;
 //						return getSolutionGF(matrix2, vector, printSteps);
-//						return null;
+						return null; // ? 
 					}
 				}
 				// Nullzeile(n) vorhanden -> Ist das System noch eindeutig
 				// loesbar?
-				if (matrix[0].length - 1 >= line) {
-					// Wenn die Zwischenschritte ausgegeben werden sollen
-					System.out.println("zwischen" +  matrix[0].length + " line " +  line);
-					// matrix muss gekürzt werden da unterbestimmtes gs:
-					for(int i = line; i < matrix[0].length; i++){
-						matrix[i][i] = 1;
-						vector[i] = 1;
-					}
-					return getSolutionGF(matrix, vector, printSteps);
-
-				}
+//				if (matrix[0].length - 1 >= line) {
+//					// Wenn die Zwischenschritte ausgegeben werden sollen
+//					System.out.println("zwischen" +  matrix[0].length + " line " +  line);
+//					// matrix muss gekürzt werden da unterbestimmtes gs:
+//					for(int i = line; i < matrix[0].length; i++){
+//						matrix[i][i] = 1;
+//						vector[i] = 1;
+//					}
+//					return getSolutionGF(matrix, vector, printSteps);
+//
+//				}
 				break;
 			}
 
