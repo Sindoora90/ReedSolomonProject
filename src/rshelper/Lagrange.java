@@ -14,23 +14,6 @@ public class Lagrange {
 	private static int ngf;
 	private static int[] sumgf, productgf;
 	
-//
-//	public static int calculateResultOld(int t, int[] xx, int[] yy){
-//		ngf = xx.length;
-//			
-//		for (int i = 0; i < ngf; i++) {
-//			productgf = yy[i];
-//			for (int j = 0; j <  ngf; j++) {
-//				if (i != j) {
-//					productgf = GF.multiply(productgf,  GF.divide(GF.add(t,xx[j]), GF.add(xx[i],xx[j])));
-//				}
-//			}
-//			sumgf = GF.add(sumgf, productgf);
-//		}
-//		
-//		return sumgf;
-//	}
-	
 	/**
 	 * Diese Funktion interpoliert mittels gegebener x und y Werte ein Polynom, welches diese Punkte enthaelt
 	 * @param xx x-Werte der Funktion

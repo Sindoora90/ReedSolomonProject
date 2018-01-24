@@ -158,11 +158,6 @@ public class RSController {
 			} 
 			else if (selected == "Voyager") {
 				_view.changeGaloisFields("8", "285", "255", "223"); // p(x)=285=x^8+x^4+x^3+x^2+1
-				String test = "1";
-				for (int i = 2; i <= 223; i++) {
-					test += "," + i;
-				}
-				System.out.println(test);
 
 			}
 

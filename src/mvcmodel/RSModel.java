@@ -67,6 +67,7 @@ public class RSModel {
     	long end = System.currentTimeMillis();
     	long diff = end - start; 
     	logger.log(1 , " ENDE DECODIERUNG - LAUFZEIT: " + diff);
+    	System.out.println(diff);
 		logger.log(1, "---------------------- \n");
 
     	
