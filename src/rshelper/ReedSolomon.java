@@ -3,8 +3,6 @@ package rshelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-// TODO GF noch einbinden in entsprechenden Variablen...
-
 public class ReedSolomon {
 	
 	Logger logger;
@@ -15,19 +13,15 @@ public class ReedSolomon {
 	private final int[] generator;
 	private final GaloisField GF;
 
-//	public ReedSolomon(int p, int primpoly, int k) {
 	public ReedSolomon(int[] fieldValues, Logger logger){
 		this.logger = logger;
 
-//		this.n = (int) Math.pow(2, p) - 1; // 7 - (2^k)-1;
 		this.n = fieldValues[4];
 		this.k = fieldValues[5];
 		this.d = n - k;
 		
 		int fieldSize = (int) Math.pow(fieldValues[0], fieldValues[1]);
 		this.GF = GaloisField.getInstance(fieldSize, fieldValues[3], fieldValues[2]);
-//		System.out.println("Test in RS Konstruktor");
-//		System.out.println("n: " + n + ", k: " + k + ", d: " + d);
 		this.generator = calculateGeneratorPolynomial();
 
 	}
@@ -82,15 +76,11 @@ public class ReedSolomon {
 	public int[] createCode(int[] message) {
 		logger.log(0, "Zu codierende Nachricht m=" + ArraytoString(message));
 		int[] s = new int[n];
-//		 System.out.println("\nn " + n + "\n ");
 		int prim = GF.getPrimitiveElement();
-		// System.out.println("prim " + prim);
 		logger.log(0, "Einsetzen der Potenzen des primitiven Elements:");
 
 		for (int i = n - 1; i >= 0; i--) {
-			// s[n-1-i] = GF.substitute(message, GF.power(prim, i));;
 			s[i] = GF.substitute(message, GF.power(prim, i));
-//			System.out.print(s[i] + "  " );
 		}
 		logger.log(0, "Code c=" + ArraytoString(s));
 		return s;
@@ -99,29 +89,13 @@ public class ReedSolomon {
 
 	// Berlekamp Welch Algorithmus:
 	public int[] decodeCodeMethodWelch(int[] code, String codingStyle) {
-		logger.log(1, "GF: " + GF.getFieldSize() + " RS: (" + n + ","+  k +","+  d);
+		logger.log(1, "GF: " + GF.getFieldSize() + " RS: (" + n + ","+  k +","+  d + ")");
 		logger.log(1, "Code c(x)="+ArraytoString(code));
 
 		int[] m = new int[k];
 		Gauss.GF = this.GF;
 		Lagrange.GF = this.GF;
 		
-		
-		// TODO _____TEST____ nachher wieder raus
-//    	System.out.println("test für unterbestimmtes gleichungssystem: ");
-//    	
-//    	int[][] blamatrix = new int[][] {{1,2,3},{3,2,3},{1,2,3}};
-//    	int[] bla = new int[]{3,2,3};
-//    	int[] resultbla = Gauss.getSolutionGF(blamatrix, bla, true);
-//    	System.out.println("result: " );
-//    	Gauss.printVectorGF(resultbla, logger);
-		// bis hier raus..
-				
-//		logger.log(1, "For that we need to find the error polynomial e(x) with deg(e)=d/2");
-//		logger.log(1, "Here as array the length must be d/2+1");
-//		logger.log(1, "Then we have to make the linear equation system with f(x) = e(x)*r(x) as described");
-//		logger.log(1, "length(f)=m+d/2 and r(x) given code");
-//		logger.log(1, "Evaluate powers of the primitive element in the equation to get the les");
 		logger.log(1, "Aufstellen des linearen Gleichungssystem mit f(x)=c*e(x)");
 
 
@@ -134,52 +108,23 @@ public class ReedSolomon {
 			fneu[i] = calcPotenzen(GF.power(GF.getPrimitiveElement(), fneu.length-1-i),fneu[0].length);
 		}
 		
-//		System.out.println("werte 1-7 in fneu(x)");
-//		for (int i = 0; i < fneu.length; i++) {
-//			System.out.print("(");
-//			for (int j = 0; j < fneu[0].length; j++) {
-//				System.out.print(fneu[i][j] + ",");
-//			}
-//			System.out.print("), ");
-//		}
-		
 		// g(x) als unbestimmtes polynom von grad d/2+1
 		// darin sind ebenfalls die Potenzen des primitiven elements eingesetzt
 		int[][] gneu = new int[m.length+d][fehleranzahl+1];
 		for(int i=0; i < gneu.length; i++){
 			gneu[i] = calcPotenzen(GF.power(GF.getPrimitiveElement(), gneu.length-1-i),gneu[0].length);
 		}
-		
-//		System.out.println("\nwerte 1-7 in gneu(x)");
-//		for (int i = 0; i < gneu.length; i++) {
-//			System.out.print("(");
-//			for (int j = 0; j < gneu[0].length; j++) {
-//				System.out.print(gneu[i][j] + ",");
-//			}
-//			System.out.print("), ");
-//		}
-		
-//		System.out
-//				.println("\nwerte 1-7 in g(x) multipliziert mit yi - auskommentiert");
 
 		// Multiplikation des polynoms g(x) mit den empfangenen codeelementen
 		int[] c = code; 
 		for (int i = 0; i < gneu.length; i++) {
-//			System.out.print("(");
 			for (int j = 0; j < gneu[0].length; j++) {
-//				g[i][j] = GF.multiply(g[i][j], c[c.length-1-i]);
 				
 				gneu[i][j] = GF.multiply(gneu[i][j], c[c.length-1-i]);
 
-//				System.out.print(gneu[i][j] + ",");
 			}
-//			System.out.print("),");
 		}
 
-//		System.out.println();
-//		System.out.println("    ---- Test 2 aus pdf ipad---- ");
-
-		// 
 		int[] vector_fg = new int[gneu.length];
 		for (int i = 0; i < vector_fg.length; i++) {
 			vector_fg[i] = gneu[i][0];
@@ -202,8 +147,7 @@ public class ReedSolomon {
 			}
 		}
 		logger.log(1, "Linke Seite des Gleichungssystems: \n" + ArraytoString2(matrix_fg));
-//		Gauss.printMatrixGF(matrix_fg,logger);
-//		System.out.println("test meine print matrix methode. ");
+
 		System.out.println(ArraytoString2(matrix_fg));
 
 		logger.log(1, "Rechte Seite des Gleichungssystems:" + ArraytoString(vector_fg));
@@ -216,14 +160,10 @@ public class ReedSolomon {
 		
 
 		System.out.println("der Lösungsvektor muss nun in 2 funktionen aufgespalten werden (f&g), PD ergibt die ursprüngliche Nachricht");
-//		int[] ff = new int[result_pdf.length-2];
-//		int[] gg = new int[]{0,0,1};
 		
 		int[] ff = new int[m.length+fehleranzahl];
 		int[] gg = new int[fehleranzahl+1];//{0,0,1};
-//		for(int i = 0; i < gg.length; i++){
-//			gg[i] = 0; 
-//		}
+
 		gg[gg.length-1] = 1;
 
 		// muss andersrum reingespeichert werden sonst passt es nicht zum rest !!!
@@ -306,14 +246,15 @@ public class ReedSolomon {
 	 * iterativer algorithmus für elp
 	 * chiensuche um nullstellen des elp zu bestimmen
 	 * vandermonde matrix lösen
-	 * 
+	 * lagrange interpolation um m(x) zu rekonstruieren
 	 * @param code
 	 * @return decoded message
 	 */
 	
 	public int[] decodeCodeMethodMassey(int[] code, String codingStyle) {
-		logger.log(1, "GF: " + GF.getFieldSize() + " RS: (" + n + ","+  k +","+  d);
-		logger.log(1, "Start decoding the given code c(x)="+ArraytoString(code)+" with the Berlekamp-Massey algorithm");
+		logger.log(1, "GF: " + GF.getFieldSize() + " RS: (" + n + ","+  k +","+  d + ")");
+		logger.log(1, "Code c(x)="+ArraytoString(code));
+	
 		int[] message = new int[k];
 		
 		Gauss.GF = this.GF;
@@ -324,9 +265,9 @@ public class ReedSolomon {
 		int[] syndromes = calculateSyndromes(code);
 		System.out.println("syndromes: ");
 		System.out.println(ArraytoString(syndromes));
-		logger.log(1, "Calculate needed syndromes: s(x)="+ArraytoString(syndromes));
+		logger.log(1, "Berechne Syndromwerte: s(x)="+ArraytoString(syndromes));
 
-		logger.log(1, "Berlekamp Massey Algorithm...");
+		logger.log(1, "Berlekamp Massey Algorithm");
 
 		int[] C_x = new int[d/2+1]; // =1
 		C_x[0] = 1;
@@ -340,41 +281,35 @@ public class ReedSolomon {
 		int L = 0; 
 		int m = 1; 
 		int b = 1;
-		int n; 
+		int nn; 
 		
-		logger.log(1, "Start values: "
+		logger.log(1, "Startwerte: "
 				+ " L=0 , m=1, b=1, n=0"
 				+ "C_x="  + ArraytoString(C_x) + " B_x=" + ArraytoString(B_x));
 
 		// Berlekamp Massey Algorithm
 		
-		for(n=0; n<d;n++){
-			logger.log(1, "iterative Step " + n);
-			int kd = syndromes[n];
+		for(nn=0; nn<d;nn++){
+			logger.log(1, "iterative Step " + nn);
+			int kd = syndromes[nn];
 			for(int i=1; i<=L;i++){
-				kd = GF.add(kd,GF.multiply(C_x[i],syndromes[n-i]));
+				kd = GF.add(kd,GF.multiply(C_x[i],syndromes[nn-i]));
 			}
 			if(kd==0){
 				m++;
 			}
-			else if(2*L<=n){
+			else if(2*L<=nn){
 				int[] T_x = Arrays.copyOf(C_x, C_x.length);
 				int temp = GF.multiply(kd, GF.invert(b));
 				int[] x_m = new int[d/2+1];
-//				System.out.println(" TEMP" + temp);
 				x_m[m] = temp;
 				int[] newbx = GF.multiply(x_m, B_x);
 //				for (int i=0; (i+4-m)<n; i++){
 //					 C_x[i+4-m]= C_x[i+4-m]+B_x[i];
 //				}
                 C_x = GF.add(C_x, newbx);   
-                L = n+1-L;
-                
-//                System.out.println("t-x");
-//    			for(int x =0 ; x < T_x.length; x++){
-//    				System.out.print("    " + T_x[x]);
-//    			}
-//    			System.out.println();                
+                L = nn+1-L;
+                            
                 
                 B_x = Arrays.copyOf(T_x, T_x.length);
                 b = kd;
@@ -386,7 +321,6 @@ public class ReedSolomon {
 //				}		
 				int temp = GF.multiply(kd, GF.invert(b));
 				int[] x_m = new int[d/2+1];
-//				System.out.println(" TEMP" + temp);
 				x_m[m] = temp;
 				int[] newbx = GF.multiply(x_m, B_x);
 //				for (int i=0; (i+4-m)<n; i++){
@@ -396,41 +330,33 @@ public class ReedSolomon {
 				m++;
 			}
 			
-//			System.out.println(" Test ende jeder while L=" + L + " m=" + m + " b=" +  b + " i=" + n + " kd=" + kd);
-//			System.out.println("c-x");
-//			for(int x =0 ; x < C_x.length; x++){
-//				System.out.print("    " + C_x[x]);
-//			}
-//			System.out.println();
-
-//			System.out.println("b-x");
-//			for(int x =0 ; x < C_x.length; x++){
-//				System.out.print("    " + B_x[x]);
-//			}
-//			System.out.println();
-			logger.log(1, "Values: "
-					+ " L="+L+ " , m="+m+", b="+b+", n="+n
+			logger.log(1, "Werte: "
+					+ " L="+L+ " , m="+m+", b="+b+", n="+nn
 					+ "C_x="  + ArraytoString(C_x) + " B_x=" + ArraytoString(B_x));
 		}
 		
 		
-		System.out.println("c-x");
-		for(int x =0 ; x < C_x.length; x++){
-			System.out.print("    " + C_x[x]);
-		}
+		System.out.println("c-x" + ArraytoString(C_x));
+//		for(int x =0 ; x < C_x.length; x++){
+//			System.out.print("    " + C_x[x]);
+//		}
 		System.out.println();
-		logger.log(1,"End of Berlekamp-Massey algorithm: C_x" + ArraytoString(C_x));
+		logger.log(1,"Ende des Berlekamp-Massey-Algorithmus: C_x=" + ArraytoString(C_x));
 	
-		logger.log(1, "Next step chien-search: ");
+		logger.log(1, "Chien-Suche: ");
+		
 		// Chien Search..
 		int [] x_werte = chienSearch(C_x);
-		System.out.println("x_werte von c_x");
-		for(int x =0 ; x < x_werte.length; x++){
-			System.out.print("    " + x_werte[x]);
-		}
+		System.out.println("x_werte von c_x" + ArraytoString(x_werte));
+//		for(int x =0 ; x < x_werte.length; x++){
+//			System.out.print("    " + x_werte[x]);
+//		}
 		System.out.println();
-		logger.log(1,"Result of chien search (x Values) " + ArraytoString(x_werte));
-		logger.log(1, "Calculate logarithm value of x_werte as roots of the error polynomial: ");
+		logger.log(1,"Ergebnis der Chien-Suche: x_werte=" + ArraytoString(x_werte));
+		
+		// TODO hier if else rein wenn chien length > 0 dann weiter sonst gleich zu korrektem code jumpen
+		int [] korrektercode;
+		if(x_werte.length>0){
 		
 //		 TODO als log funktion in GF einfügen
 		int[] nullstellen = new int[x_werte.length];
@@ -441,14 +367,11 @@ public class ReedSolomon {
 				}
 			}
 		}
-		logger.log(1,"Nullstellen - Roots of error polynomial: " + ArraytoString(nullstellen));
+		logger.log(1,"Nullstellen des Fehlerortungspolynoms: " + ArraytoString(nullstellen));
 
 		
-		System.out.println("nullstellen von c_x");
-		for(int x =0 ; x < nullstellen.length; x++){
-			System.out.print("    " + nullstellen[x]);
-		}
-		System.out.println();
+		System.out.println("nullstellen von c_x" + ArraytoString(nullstellen));
+		
 //		Vandermonde Matrix für y werte der nullstellen
 	   
 		int[][] matrix = new int[syndromes.length][x_werte.length];
@@ -457,32 +380,43 @@ public class ReedSolomon {
 				matrix[j][i] = GF.power(x_werte[i], j+1);
 			}
 		}
-		logger.log(1, "Vandermonde Matrix to calculate the y-values: ");
+		logger.log(1, "Vandermonde Matrix zur Bestimmung der y_werte: ");
 		Gauss.printMatrixGF(matrix,logger);
 		System.out.println("hier gibts wohl ein problem..." );
 		int[] y_werte = Gauss.getSolutionGF(matrix, syndromes, true);
-		//Gauss.printVectorGF(y_werte,logger);
-		logger.log(1,"y-Values calculated by the gaussian algorithm: " + ArraytoString(y_werte));
 
 		
+		if(y_werte != null){
+		logger.log(1,"y_werte=" + ArraytoString(y_werte));
+
 		// Error locator polynom 
 		int[] elp = new int[code.length];
+		System.out.println("TEST: elp.lenght " + elp.length + " nullstellen.length " + nullstellen.length + " ywerte " + y_werte.length);
 		for(int i = 0; i < nullstellen.length; i++){
+			System.out.println("nullstellen i = "+ nullstellen[i] + " yweret i = " + y_werte[i]);
+
 			elp[nullstellen[i]] = y_werte[i];
 		}
 		
-		//Gauss.printVectorGF(elp,logger);
-		logger.log(1,"Error polynomial: elp_x=" + ArraytoString(elp));
+		logger.log(1,"Fehlerpolynom: e(x)=" + ArraytoString(elp));
 
-		int [] korrektercode = GF.add(code, elp);
+		korrektercode = GF.add(code, elp);
 		
-		logger.log(1,"Adding elp and the received code you get the corrected code: c(x)=" + ArraytoString(korrektercode));
+		logger.log(1,"Addition von e(x) mit empfangener Nachricht");
+		logger.log(1,"Korrigierter Code c=" + ArraytoString(korrektercode));
 
-		//Gauss.printVectorGF(korrektercode,logger);
+		}
+		else{
+			korrektercode = code;
+
+		}
+		}
+		else{
+			korrektercode = code;
+		}
 		
-		// TODO message = korrektercode;
+		// message = korrektercode;
 		int[] tempmessage = lagrangeInterpolation(korrektercode);
-		logger.log(1,"Korrigierter Code c=" + ArraytoString(tempmessage));
 //		if(codingStyle=="system"){
 //			// einsetzen der ersten k potenzen in das ergebnis polynom
 //			for(int ii = 0 ; ii < k; ii++){
@@ -493,15 +427,25 @@ public class ReedSolomon {
 //		else{
 			message = tempmessage.clone();
 //		}
-		logger.log(1,"With the lagrange interpolation you get the decoded message m(x)=" + ArraytoString(message));
+		
+		logger.log(1, "Mit Hilfe der Lagrange-Interpolation wird die ursprüngliche Nachricht bestimmt:");
 
+		logger.log(1, "Decodierte Nachricht m(x)="+ArraytoString(message));
 		return message;
+//		}
+//		else{
+//			
+//			// TODO wenn gleichungssystem nicht lösbar dann nochmal mit weniger fehlern 
+//			int[] nomes = new int[k];
+//			for(int i = 0 ; i < k; i++){
+//				nomes[i] = -1;
+//			}
+//			return nomes;
+//		}
 	}	
 	
-	// TODO aktuell über gauss verfahren und nciht lagrange interpolation...	
 		private int[] lagrangeInterpolation(int[] korrektercode) {
 			
-			// TODO Lagrange..
 			int[] xvalues = new int[k];
 			for(int i = 0; i < xvalues.length; i++){
 				xvalues[i] = GF.power(GF.getPrimitiveElement(), i);
@@ -512,30 +456,6 @@ public class ReedSolomon {
 			int[] ergebnis = Lagrange.calculateResultGF(xvalues,yvalues);
 			System.out.println("ergebnis wenn zb. 1 eingesetzt..." + ergebnis.length + "  " + ArraytoString(ergebnis));
 			
-			// mit gauss
-//			int[][] testmatrix = new int[k][k];//{{3,6,1},{5,3,1},{2,7,1}};
-//			for(int i = 0; i < testmatrix.length; i++){
-//				for(int j = 0; j < testmatrix[0].length; j++){
-//					testmatrix[i][j] = GF.power(GF.power(GF.getPrimitiveElement(), n-1-i),k-1-j); 
-//				}
-//			}
-//			Gauss.printMatrixGF(testmatrix,logger);
-//			int[] testvector = Arrays.copyOf(korrektercode, k);
-//			Gauss.printVectorGF(testvector,logger);
-//			for(int i = 0; i < k; i++){
-//				testvector[i] = korrektercode[korrektercode.length-1-i];
-//			}
-//
-//			int [] testresult = Gauss.getSolutionGF(testmatrix, testvector, true);
-//			Gauss.printVectorGF(testresult,logger);
-//			
-//			int [] invertedresult = new int[testresult.length];
-//			for(int i = 0; i < testresult.length; i++){
-//				invertedresult[i] = testresult[testresult.length-i-1];
-				
-
-		//return testresult;
-//		return invertedresult;
 			return ergebnis;
 
 	}
@@ -552,6 +472,7 @@ public class ReedSolomon {
 			ArrayList<Integer> nullstellen = new ArrayList<Integer>();
 						
 
+			System.out.println("test: fieldsize of gf: " + GF.getFieldSize());
 			for(int i =0 ; i <= GF.getFieldSize()-1; i++){
 				int summe = 0;//y_x[0];
 				for(int j = 0; j < y_x.length; j++){
@@ -573,12 +494,25 @@ public class ReedSolomon {
 				
 			}
 			
-			int[] result = new int[nullstellen.size()];
-			for(int i = 0; i < result.length; i++){
-				result[i] = GF.invert(GF.power(a, nullstellen.get(i)));
-//				result[i] = GF.invert(nullstellen.get(i));
-
+//			int[] result = new int[nullstellen.size()];
+//			for(int i = 0; i < result.length; i++){
+//				result[i] = GF.invert(GF.power(a, nullstellen.get(i)));
+//
+//			}
+			
+			ArrayList<Integer> x_stellen = new ArrayList<Integer>();
+			for(int i = 0; i < nullstellen.size(); i++){
+				int x_stelle = GF.invert(GF.power(a, nullstellen.get(i)));
+				if(x_stelle < n){
+					x_stellen.add(x_stelle);
+				}
 			}
+			
+			int[] result = new int[x_stellen.size()];
+			for(int i=0; i < x_stellen.size(); i++){
+				result[i] = x_stellen.get(i);
+			}
+			
 		return result;
 	}
 	
@@ -587,7 +521,7 @@ public class ReedSolomon {
 	public int[] calculateSyndromes(int[] code){
 		System.out.println("test wert d = " + d);
 		int[] syndromes = new int[d];
-		int a = 2; // primitives element
+		int a = GF.getPrimitiveElement(); // primitives element
 		
 		for(int i = 1; i <= d ; i++){
 			syndromes[i-1] = GF.substitute(code, GF.power(a,i));
@@ -607,16 +541,21 @@ public class ReedSolomon {
 	}
 	
 	public String ArraytoString(int[] poly){
-		if(poly.length>0){
-			String array = "["+poly[0];
-			for(int i =1; i < poly.length; i++){
-				array+=","+poly[i];
+		if(poly != null){
+			if(poly.length>0){
+				String array = "["+poly[0];
+				for(int i =1; i < poly.length; i++){
+					array+=","+poly[i];
+				}
+				array+="]";
+				return array;
 			}
-			array+="]";
-			return array;
+			else{
+				return "---"; 
+			}
 		}
 		else{
-			return "empty array..."; 
+			return "null"; 
 		}
 		
 	}
