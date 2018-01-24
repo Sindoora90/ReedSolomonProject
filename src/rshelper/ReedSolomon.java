@@ -221,16 +221,18 @@ public class ReedSolomon {
 //		System.out.println(ArraytoString(quotient[1]));
 		
 		m = quotient[0].clone();
-		
+		logger.log(1, "Die Polynomdivision der beiden ergibt die Nachricht");
+
 		// Check ob systematischer code
 		if(codingStyle=="system"){
 			// einsetzen der ersten k potenzen in das ergebnis polynom
 			for(int ii = 0 ; ii < k; ii++){
 				m[m.length-1-ii] = GF.substitute(quotient[0], GF.power(GF.getPrimitiveElement(), n-ii-1 ));
 			}
+			logger.log(1, "Beim systematischen Code ergeben die letzten k Werte die Nachricht:");
+
 		}
 		
-		logger.log(1, "Die Polynomdivision der beiden ergibt die Nachricht");
 
 		logger.log(1, "Decodierte Nachricht m(x)="+ArraytoString(m));
 
@@ -414,23 +416,25 @@ public class ReedSolomon {
 			korrektercode = code;
 		}
 		
-		// message = korrektercode;
-		int[] tempmessage = lagrangeInterpolation(korrektercode);
-//		if(codingStyle=="system"){
-//			// einsetzen der ersten k potenzen in das ergebnis polynom
-//			for(int ii = 0 ; ii < k; ii++){
-//				System.out.println("system true");
-//				message[message.length-1-ii] = GF.substitute(tempmessage, GF.power(GF.getPrimitiveElement(), n-ii-1 ));
-//			}
-//		}
-//		else{
-			message = tempmessage.clone();
-//		}
-		
-		logger.log(1, "Mit Hilfe der Lagrange-Interpolation wird die ursprüngliche Nachricht bestimmt:");
+		if(codingStyle == "system"){
+			for(int ii = 0 ; ii < k; ii++){
+				message[message.length-1-ii] = korrektercode[korrektercode.length-ii-1];
+			}
+			logger.log(1, "Beim systematischen Code ergeben die letzten k Werte die Nachricht:");
 
-		logger.log(1, "Decodierte Nachricht m(x)="+ArraytoString(message));
-		return message;
+			logger.log(1, "Decodierte Nachricht m(x)="+ArraytoString(message));
+			return message;
+		}
+		else{
+			int[] tempmessage = lagrangeInterpolation(korrektercode);
+				message = tempmessage.clone();
+			
+			logger.log(1, "Mit Hilfe der Lagrange-Interpolation wird die ursprüngliche Nachricht bestimmt:");
+
+			logger.log(1, "Decodierte Nachricht m(x)="+ArraytoString(message));
+			return message;
+		}
+
 //		}
 
 	}	
