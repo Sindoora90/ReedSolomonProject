@@ -26,55 +26,95 @@ public class RSModel {
         zurückSetzen();
     }
 
+    /**
+     * Setzt den Inhalt von Code und Nachricht zurück.
+     */
     public void zurückSetzen(){
     	this._code = null;
     	this._message = null;
     }
     
     
+    /**
+     * 
+     * Startet die Codierung abhängig von der Wahl des Codierverfahrens
+     * @param fieldValues enthält die Werte für den Galoiskörper und des Reed-Solomon-Code
+     * @param codingStyle stützstellenbasiert oder systematisch
+     * @param m zu codierende Nachricht
+     * 
+     */
     public void starteCodierung(int[] fieldValues, String codingStyle, int[] m){
-    	logger.log(0, "START CODIERUNG");
     	long start = System.currentTimeMillis();
 //    	this._RS = new ReedSolomon(fieldValues[0], fieldValues[3], fieldValues[2]); // 0 = p primzahl, 1 = n, 2 = k, 3 = p(x) irreduzpoly
     	this._RS = new ReedSolomon(fieldValues,logger);
     	if(codingStyle=="stuetz"){
+        	logger.log(0, "STARTE STÜTZSTELLENBASIERTE CODIERUNG");
     		this._code = this._RS.createCode(m);
     	}
     	else if(codingStyle=="system"){
+        	logger.log(0, "STARTE SYSTEMATISCHE CODIERUNG");
     		this._code = this._RS.createSystematicCode(m);
     	}
     	long end = System.currentTimeMillis();
     	long diff = end - start; 
-    	logger.log(0 , " END - TIME: " + diff);
-		logger.log(0, "\n ---------------------- \n");
+    	logger.log(0 , " ENDE CODIERUNG - LAUFZEIT: " + diff);
+		logger.log(0, "---------------------- \n");
 
     	
     }
     
-    public void starteDecodierung(int[] fieldValues, String decodingStyle, int[] c){  	
-    	logger.log(1, "START DECODIERUNG");
-    	long start = System.currentTimeMillis();
-//    	this._RS = new ReedSolomon(fieldValues[0], fieldValues[3], fieldValues[2]); // 0 = p primzahl, 1 = n, 2 = k, 3 = p(x) irreduzpoly
-    	this._RS = new ReedSolomon(fieldValues,logger);
-    	if(decodingStyle=="bwelch"){
-    		this._message = this._RS.decodeCodeMethodWelch(c);
+    /**
+     * 
+     * Startet die Decodierung abhängig von der Wahl des Decodierverfahrens
+     * @param fieldValues enthält die Werte für den Galoiskörper und des Reed-Solomon-Code
+     * @param decodingStyle Berlekamp-Welch oder Berlekamp-Massey
+     * @param c zu decodierender Code
+     * @param codingStyle stützstellenbasiert oder systematisch 
+     */
+    public void starteDecodierung(int[] fieldValues, String decodingStyle, int[] c, String codingStyle){
+    	
+    	try{
+        	long start = System.currentTimeMillis();
+//        	this._RS = new ReedSolomon(fieldValues[0], fieldValues[3], fieldValues[2]); // 0 = p primzahl, 1 = n, 2 = k, 3 = p(x) irreduzpoly
+        	this._RS = new ReedSolomon(fieldValues,logger);
+        	if(decodingStyle=="bwelch"){
+            	logger.log(1, "STARTE BERLEKAMP-WELCH-DECODIERUNG");
+        		this._message = this._RS.decodeCodeMethodWelch(c, codingStyle);
+        	}
+        	else if(decodingStyle=="bmassey"){
+            	logger.log(1, "STARTE BERLEKAMP-MASSEY-DECODIERUNG");
+        		this._message = this._RS.decodeCodeMethodMassey(c, codingStyle);
+        	}
+        	long end = System.currentTimeMillis();
+        	long diff = end - start; 
+        	logger.log(1 , " ENDE DECODIERUNG - LAUFZEIT: " + diff);
+        	System.out.println(diff);	
+    		
     	}
-    	else if(decodingStyle=="bmassey"){
-    		this._message = this._RS.decodeCodeMethodMassey(c);
+    	catch(Exception e){
+    		
+    		logger.log(1, "FALSCHE EINGABEN!");
     	}
-    	long end = System.currentTimeMillis();
-    	long diff = end - start; 
-    	logger.log(1 , " END - TIME: " + diff);
-		logger.log(1, "\n ---------------------- \n");
+    	
+
+		logger.log(1, "---------------------- \n");
 
     	
     }
    
-    
+   
+    /**
+     * Wird im Controller aufgerufen und gibt den Code zurück.
+     * @return code
+     */
     public int[] getCode(){
         return this._code;
     }
 
+    /**
+     * Wird im Controller aufgerufen und gibt die Nachricht zurück.
+     * @return message
+     */
 	public int[] getMessage() {
 		return this._message;
 	}

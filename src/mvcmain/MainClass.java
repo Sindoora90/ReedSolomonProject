@@ -5,7 +5,9 @@ import mvccontroller.RSController;
 
 
 /**
- * Main Class starts the tool with a controller and a view
+ * MainClass startet das Reed-Solomon-Tool mit einem Controller und einer View
+ * 
+ * MainClass starts the Reed-Solomon tool with a controller and a view
  */
 public class MainClass {
 

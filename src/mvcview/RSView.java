@@ -53,7 +53,7 @@ public class RSView extends JFrame {
 	private JPanel bottom_panel = new JPanel();
 
 	private JLabel lbl_festlegen = new JLabel("Festlegen der Variablen: ");
-	private String[] dropdownListe = { "benutzerdefiniert", "2D Barcodes", "MIDS", "CD", "Voyager"};
+	private String[] dropdownListe = { "benutzerdefiniert", "2D Barcodes", "MIDS", "CD1","CD2", "Voyager"};
 	private JComboBox<String> dropdown = new JComboBox<String>(dropdownListe);
 
 	private JLabel lbl_endlk = new JLabel("Endlicher Körper GF(p^m): ");
@@ -99,6 +99,7 @@ public class RSView extends JFrame {
 
 	private JButton startcod = new JButton("Start Cod");
 	private JButton startdec = new JButton("Start Dec");
+	private JButton randmessage = new JButton("Random");
 
 	//private JLabel lbl_zwischen = new JLabel("Zwischenschritte: ");
 	//private JLabel lbl_zwischen2 = new JLabel("");
@@ -212,6 +213,12 @@ public class RSView extends JFrame {
 		cc.gridx = 0;
 		cc.gridy = 0;
 		panel_kod.add(lbl_kod, cc);
+		cc.gridwidth = 2;
+		cc.weightx = 0.0;
+		cc.weighty = 1.0;
+		cc.gridx = 1;
+		cc.gridy = 0;
+		panel_kod.add(randmessage, cc);
 		cc.gridwidth = 1;
 		cc.weightx = 0.0;
 		cc.weighty = 1.0;
@@ -339,10 +346,10 @@ public class RSView extends JFrame {
 		// The following line enables to use scrolling tabs.
 		tabpane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		// tab_panel.add(tabpane);
-		System.out.println("tabpanel size: " + tab_panel.getSize());
+//		System.out.println("tabpanel size: " + tab_panel.getSize());
 		bottom_panel.add(tabpane, myConstraints);
 		bottom_panel.setSize(1000, 300);
-		System.out.println("bottompanel size: " + bottom_panel.getSize());
+//		System.out.println("bottompanel size: " + bottom_panel.getSize());
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
@@ -350,7 +357,7 @@ public class RSView extends JFrame {
 		c.gridx = 0;
 		c.gridy = 3;
 		pane.add(bottom_panel, c);
-		System.out.println("pane size: " + pane.getSize());
+//		System.out.println("pane size: " + pane.getSize());
 
 		// pack drückt alles zusammen in der view, ignoriert size angaben
 		// this.pack();
@@ -418,7 +425,10 @@ public class RSView extends JFrame {
 		this.dropdown.addItemListener(l);
 		
 	}
-
+	
+	public void setRandButtonListener(ActionListener l) {
+		this.randmessage.addActionListener(l);		
+	}
 	public void setResetFormListener(ActionListener l) {
 		// this.startdec.addActionListener(l);
 	}
@@ -453,6 +463,10 @@ public class RSView extends JFrame {
 		this.txt_m_dec.setText(message);
 
 	}
+	public void setInputMessage(String message) {
+		this.txt_m_cod.setText(message);
+
+	}
 
 //   alle felder auf leer setzen
 //	public void resetView() {
@@ -461,6 +475,13 @@ public class RSView extends JFrame {
 //
 //	}
 
+	/**
+	 * Ändert die Werte des Galoisfields und Reed-Solomon-Codes in der Benutzeroberfläche
+	 * @param m Exponent 
+	 * @param irred irreduzibles Polynom
+	 * @param n Länge des Codes
+	 * @param k Länge der Nachricht
+	 */
 	public void changeGaloisFields(String m, String irred, String n, String k) {
 		this.txt_m.setText(m);
 		this.txt_irred.setText(irred);
