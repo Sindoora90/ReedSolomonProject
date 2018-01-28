@@ -1,7 +1,6 @@
 package rshelper;
 /**
  * 
- * @author Sindoora
  * Körper / Field: Addition, Multiplikation, Subtraktion, Division, neutrale & inverse Elemente bzgl. + & * 
  * 
  */

@@ -475,6 +475,13 @@ public class RSView extends JFrame {
 //
 //	}
 
+	/**
+	 * Ändert die Werte des Galoisfields und Reed-Solomon-Codes in der Benutzeroberfläche
+	 * @param m Exponent 
+	 * @param irred irreduzibles Polynom
+	 * @param n Länge des Codes
+	 * @param k Länge der Nachricht
+	 */
 	public void changeGaloisFields(String m, String irred, String n, String k) {
 		this.txt_m.setText(m);
 		this.txt_irred.setText(irred);

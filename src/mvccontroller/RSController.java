@@ -12,8 +12,8 @@ import mvcmodel.RSModel;
 import mvcview.RSView;
 
 /**
- * Der Controller muss beide die View und das Model kennen, da dieser für die
- * Kommunikation zwischen den Beiden sorgt
+ * Der Controller muss die View und das Model kennen, da dieser für die
+ * Kommunikation zwischen den beiden sorgt
  */
 public class RSController {
 
@@ -36,7 +36,7 @@ public class RSController {
 	}
 
 	/**
-	 * Die Listener, die wir aus den Internen Klassen generieren werden der View
+	 * Die Listener, die wir aus den Internen Klassen generieren, werden der View
 	 * bekannt gemacht, sodass diese mit uns (dem Controller) kommunizieren kann
 	 */
 	private void addListener() {
@@ -51,12 +51,11 @@ public class RSController {
 	/**
 	 * Inneren Listener Klassen implementieren das Interface ActionListener
 	 *
-	 * 1: Hier werden erst die eingegebenen Werte aus der View geholt 2: Die
-	 * Werte werden dem Model übergeben und die Codierung bzw. Decodierung
-	 * berechnet 3: Die berechneten Werte werden aus dem Model geladen und 4:
-	 * Wieder der View zum Darstellen übergeben
+	 * 1: Hier werden erst die eingegebenen Werte aus der View geholt 
+	 * 2: Die Werte werden dem Model übergeben und die Codierung bzw. Decodierung berechnet 
+	 * 3: Die berechneten Werte werden aus dem Model geladen und 
+	 * 4: Wieder der View zum Darstellen übergeben
 	 *
-	 * Fehlerprüfung noch nicht vollstaendig implementiert
 	 */
 	class StartCodingListener implements ActionListener {
 		@Override
@@ -78,7 +77,7 @@ public class RSController {
 	}
 
 	/**
-	 * Hier wird dem View und dem Model gesagt ihre gespeicherten Werte zu
+	 * Hier wird der View und dem Model gesagt ihre gespeicherten Werte zu
 	 * löschen.
 	 */
 	class ResetFormListener implements ActionListener {
@@ -89,6 +88,13 @@ public class RSController {
 		}
 	}
 
+	/**
+	 * 
+	 * Hier wird die Decodierung gestartet. Dabei werden die Werte aus der View an das Model weitergegeben.
+	 * Nach der Decodierung werden diese aus dem Model geholt und in der View angezeigt. 
+	 *
+	 */
+	
 	class StartDecodingListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -109,6 +115,13 @@ public class RSController {
 		}
 	}
 	
+	
+	/**
+	 * 
+	 * Bei Klick auf den Random-Button wird hier eine zufällige Nachricht generiert und in der View angezeigt.
+	 * Diese Nachricht hat die Länge k, die auch in der View festgelegt wurde.
+	 *
+	 */
 	class RandButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -130,6 +143,11 @@ public class RSController {
 	}
 	
 
+	/**
+	 * 
+	 * Dieser Listener ist für das Dropdown-Menü zuständig.
+	 *
+	 */
 	class ComboBoxListener implements ItemListener {
 
 		@Override

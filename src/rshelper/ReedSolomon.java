@@ -3,6 +3,11 @@ package rshelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * 
+ * Diese Klasse enthält die Reed-Solomon-Logik und die Methoden für die Codierung und Decodierung von RS-Codes. 
+ *
+ */
 public class ReedSolomon {
 	
 	Logger logger;
@@ -26,6 +31,10 @@ public class ReedSolomon {
 
 	}
 
+	/**
+	 * Berechnet das Generatorpolynom, welches bei der Codierung benötigt wird
+	 * @return generatorpolynom
+	 */
 	private int[] calculateGeneratorPolynomial() {
 	    // Generatorpolynom immer von Grad d
 		int[] start = new int[] { GF.getPrimitiveElement(), 1 };
@@ -39,6 +48,11 @@ public class ReedSolomon {
 		return start;
 	}
 
+	/**
+	 * Erzeugt aus einer Nachricht einen systematischen RS-Code.
+	 * @param message Nachricht
+	 * @return Code
+	 */
 	public int[] createSystematicCode(int[] message) {
 		logger.log(0, "Nachricht m=" + ArraytoString(message));
 		logger.log(0, "1. Array auf die Länge des Codes (" + n + ") bringen: ");
@@ -73,6 +87,11 @@ public class ReedSolomon {
 
 	}
 
+	/**
+	 * Erzeugt aus einer Nachricht einen RS-Code mittels stützstellenbasierter Codierung
+	 * @param message Nachricht
+	 * @return Code
+	 */
 	public int[] createCode(int[] message) {
 		logger.log(0, "Zu codierende Nachricht m=" + ArraytoString(message));
 		int[] s = new int[n];
@@ -87,7 +106,16 @@ public class ReedSolomon {
 
 	}
 
-	// Berlekamp Welch Algorithmus:
+/**
+ * Berlekamp-Welch-Verfahren
+ * Berechnet mittels Berlekamp-Welch Verfahren die Nachricht aus dem gegebenen Code.
+ * Dabei wird ein LGS aufgestellt und mittels Gaußschen Eliminations-Verfahren gelöst. 
+ * Der resultierende Vector wird in zwei Funktionen aufgespalten, dessen Polynomdivision die Nachricht ergibt.
+ *
+ * @param code Code
+ * @param codingStyle stütz oder system
+ * @return Nachricht
+ */
 	public int[] decodeCodeMethodWelch(int[] code, String codingStyle) {
 		logger.log(1, "GF: " + GF.getFieldSize() + " RS: (" + n + ","+  k +","+  d + ")");
 		logger.log(1, "Code c(x)="+ArraytoString(code));
@@ -244,12 +272,12 @@ public class ReedSolomon {
 	
 	
 	/**	
-	 *  
-	 * berechne syndromwerte
-	 * iterativer algorithmus für elp
-	 * chiensuche um nullstellen des elp zu bestimmen
-	 * vandermonde matrix lösen
-	 * lagrange interpolation um m(x) zu rekonstruieren
+	 * Berlekamp-Massey-Verfahren
+	 * 1. berechne syndromwerte
+	 * 2. iterativer algorithmus für elp
+	 * 3. chiensuche um nullstellen des elp zu bestimmen
+	 * 4. vandermonde matrix lösen
+	 * 5. lagrange interpolation um m(x) zu rekonstruieren, wenn stützstellenbasiert
 	 * @param code
 	 * @return decoded message
 	 */
@@ -455,6 +483,11 @@ public class ReedSolomon {
 
 	}
 
+		/**
+		 * Chien-Suche zur Bestimmung von Nullstellen eines Polynoms
+		 * @param c_x Polynom, dessen Nullstellen bestimmt werden sollen
+		 * @return Nullstellen
+		 */
 		private int[] chienSearch(int[] c_x) {
 			int a = GF.getPrimitiveElement();
 			
@@ -513,6 +546,11 @@ public class ReedSolomon {
 	
 	
 	
+		/**
+		 * Berechnet die Syndromwerte, die bei der Decodierung von RS-Codes notwendig sind.
+		 * @param code 
+		 * @return syndromarray
+		 */
 	public int[] calculateSyndromes(int[] code){
 //		System.out.println("test wert d = " + d);
 		int[] syndromes = new int[d];
@@ -526,6 +564,12 @@ public class ReedSolomon {
 		return syndromes;
 	}
 	
+	/**
+	 * Berechnet die Potenzen eines Elements bis zum Wert k
+	 * @param a Basis
+	 * @param k Potenz
+	 * @return Array aus Potenzen
+	 */
 	public int[] calcPotenzen(int a, int k) {
 		int[] result = new int[k];
 		for (int i = 0; i < k; i++) {
@@ -535,6 +579,11 @@ public class ReedSolomon {
 		return result;
 	}
 	
+	/**
+	 * Diese Methode erhält ein Array und erstellt ein String daraus zur besseren Darstellung 
+	 * @param poly array
+	 * @return String array
+	 */
 	public String ArraytoString(int[] poly){
 		if(poly != null){
 			if(poly.length>0){
@@ -555,8 +604,11 @@ public class ReedSolomon {
 		
 	}
 	
-	
-	// matrizen printen
+	/**
+	 * Diese Methode erhält ein zweidimensionales Array (matrix) und erstellt ein String daraus zur besseren Darstellung 
+	 * @param poly array[][]
+	 * @return String array
+	 */
 	public String ArraytoString2(int[][] poly){
 		String array =  ArraytoString(poly[0]);
 		for(int i = 0 ; i < poly.length; i++){

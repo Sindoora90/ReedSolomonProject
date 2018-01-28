@@ -34,7 +34,6 @@ public class GaloisField extends Field{
   private final int fieldSize;
   private final int primitivePeriod;
   private final int primitivePolynomial;
-  // newnew
   private final int primitiveElement; 
 
 
@@ -302,6 +301,15 @@ public class GaloisField extends Field{
       }
     }
   }
+  
+  /**
+   * Compute the remainder of a dividend and divisor pair. The index in the
+   * array corresponds to the power of the entry. For example p[0] is the
+   * constant term of the polynomial p. 
+   * @param dividend dividend polynomial, the remainder will be placed here when return
+   * @param divisor divisor polynomial
+   * @return [result,remainder]
+   */
   
   public int[][] remainder2(int[] dividend, int[] divisor) {
 	  // int len = dividend.length - 1;

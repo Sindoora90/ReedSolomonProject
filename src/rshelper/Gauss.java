@@ -4,6 +4,12 @@ package rshelper;
 public class Gauss {
 	static GaloisField GF;
 
+	/**
+	 * Berechne die Potenzen eines Elements a von 0-k
+	 * @param a base
+	 * @param k exponent
+	 * @return [powers]
+	 */
 	static int[] calcPotenzen(int a, int k) {
 		int[] result = new int[k];
 		for (int i = 0; i < k; i++) {
@@ -13,6 +19,14 @@ public class Gauss {
 		return result;
 	}
 
+	/**
+	 * Berechne das Ergebnis von einer Matrix als linke und einem Vector als rechte Seite des LGS mit Hilfe des 
+	 * Gaußschen Eliminations Algorithmus
+	 * @param matrix
+	 * @param vector
+	 * @param printSteps
+	 * @return resultvector
+	 */
 	static int[] getSolutionGF(int[][] matrix, int[] vector,
 			boolean printSteps) {
 
@@ -174,7 +188,7 @@ public class Gauss {
 
 	}
 
-	/*
+	/**
 	 * Gauss-Jordan-Algorithmus nur fuer eindeutige Gleichungssysteme geeignet
 	 * (andernfalls wird NULL zurueckgegeben) matrix[row][column]
 	 */
@@ -194,7 +208,7 @@ public class Gauss {
 		vector[rowTwo] = tmpVar;
 	}
 
-	/*
+	/**
 	 * eine Zeile wird durch "div" geteilt. "div" darf nicht null sein
 	 */
 	private static void divideLineGF(int row, int div, int[][] matrix,
@@ -207,7 +221,7 @@ public class Gauss {
 		vector[row] = GF.divide(vector[row], div);
 	}
 
-	/*
+	/**
 	 * Eine Zeile (row) wird mit einem entsprechendem vielfachen (factor) von
 	 * einer anderen Zeile (rowRoot) subtrahiert.
 	 */
@@ -220,7 +234,7 @@ public class Gauss {
 		vector[row] = GF.add(vector[row], GF.multiply(factor, vector[rowRoot]));
 	}
 
-	/*
+	/**
 	 * Ein Vector wird auf der Konsole ausgegeben (transponiert)
 	 */
 
@@ -244,7 +258,7 @@ public class Gauss {
 		logger.log(1,logvector);
 	}
 
-	/*
+	/**
 	 * Eine Matrix wird auf der Konsole ausgegeben matrix[row][column]
 	 */
 
@@ -270,7 +284,7 @@ public class Gauss {
 		logger.log(1,logmatrix);
 	}
 
-	/*
+	/**
 	 * Diese Methode zeigt die Zwischenschritte der Berechnung auf der Konsole
 	 * an. Fuer die Aufgabe nicht weiter relevant (unbekannte Konzepte werden
 	 * verwendet!)
