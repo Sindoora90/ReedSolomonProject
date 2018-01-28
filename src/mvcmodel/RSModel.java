@@ -1,8 +1,5 @@
 package mvcmodel;
 
-import java.util.Date;
-
-import rshelper.Gauss;
 import rshelper.Logger;
 import rshelper.ReedSolomon;
 
@@ -44,6 +41,7 @@ public class RSModel {
      * 
      */
     public void starteCodierung(int[] fieldValues, String codingStyle, int[] m){
+    	try{
     	long start = System.currentTimeMillis();
 //    	this._RS = new ReedSolomon(fieldValues[0], fieldValues[3], fieldValues[2]); // 0 = p primzahl, 1 = n, 2 = k, 3 = p(x) irreduzpoly
     	this._RS = new ReedSolomon(fieldValues,logger);
@@ -58,6 +56,10 @@ public class RSModel {
     	long end = System.currentTimeMillis();
     	long diff = end - start; 
     	logger.log(0 , " ENDE CODIERUNG - LAUFZEIT: " + diff);
+    	}
+    	catch(Exception e){
+    		logger.log(0, "FALSCHE EINGABEN!");
+    	}
 		logger.log(0, "---------------------- \n");
 
     	
