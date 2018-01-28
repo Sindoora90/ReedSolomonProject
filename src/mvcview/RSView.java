@@ -73,7 +73,7 @@ public class RSView extends JFrame {
 	private JLabel lbl_k = new JLabel("k = ");
 	private JTextField txt_k = new JTextField(3);
 
-	private JPanel tab_panel = new JPanel();
+//	private JPanel tab_panel = new JPanel();
 	private JTabbedPane tabpane = new JTabbedPane();
 	
 	// Inhalt von Kodierungstab
